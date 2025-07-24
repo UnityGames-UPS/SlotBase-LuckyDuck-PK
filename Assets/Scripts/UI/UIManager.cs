@@ -94,6 +94,10 @@ public class UIManager : MonoBehaviour
     private Sprite HugeWin_Sprites;
     [SerializeField]
     private Sprite MegaWin_Sprites;
+    [SerializeField] private List<Sprite> BigWinAnimSprites;
+    [SerializeField] private List<Sprite> HugeWinAnimSprites;
+    [SerializeField] private List<Sprite> MegaWinAnimSprites;
+
 
     [SerializeField]
     private Image Win_Image;
@@ -370,12 +374,16 @@ public class UIManager : MonoBehaviour
         {
             case 1:
                 Win_Image.sprite = BigWin_Sprites;
+                Win_Image.gameObject.GetComponent<ImageAnimation>().textureArray = BigWinAnimSprites;
+                
                 break;
             case 2:
                 Win_Image.sprite = HugeWin_Sprites;
+                Win_Image.gameObject.GetComponent<ImageAnimation>().textureArray = HugeWinAnimSprites;
                 break;
             case 3:
                 Win_Image.sprite = MegaWin_Sprites;
+                Win_Image.gameObject.GetComponent<ImageAnimation>().textureArray = MegaWinAnimSprites;
                 break;
 
         }
@@ -434,18 +442,18 @@ public class UIManager : MonoBehaviour
         OpenPopup(ADPopup_Object);
     }
 
-    internal void InitialiseUIData(string SupportUrl, string AbtImgUrl, string TermsUrl, string PrivacyUrl, Paylines symbolsText)
+    internal void InitialiseUIData(Paylines symbolsText)
     {
-        if (Support_Button) Support_Button.onClick.RemoveAllListeners();
-        if (Support_Button) Support_Button.onClick.AddListener(delegate { UrlButtons(SupportUrl); });
+        // if (Support_Button) Support_Button.onClick.RemoveAllListeners();
+        // if (Support_Button) Support_Button.onClick.AddListener(delegate { UrlButtons(SupportUrl); });
 
-        if (Terms_Button) Terms_Button.onClick.RemoveAllListeners();
-        if (Terms_Button) Terms_Button.onClick.AddListener(delegate { UrlButtons(TermsUrl); });
+        // if (Terms_Button) Terms_Button.onClick.RemoveAllListeners();
+        // if (Terms_Button) Terms_Button.onClick.AddListener(delegate { UrlButtons(TermsUrl); });
 
-        if (Privacy_Button) Privacy_Button.onClick.RemoveAllListeners();
-        if (Privacy_Button) Privacy_Button.onClick.AddListener(delegate { UrlButtons(PrivacyUrl); });
+        // if (Privacy_Button) Privacy_Button.onClick.RemoveAllListeners();
+        // if (Privacy_Button) Privacy_Button.onClick.AddListener(delegate { UrlButtons(PrivacyUrl); });
 
-        StartCoroutine(DownloadImage(AbtImgUrl));
+        // StartCoroutine(DownloadImage(AbtImgUrl));
         PopulateSymbolsPayout(symbolsText);
     }
 
@@ -454,29 +462,29 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < SymbolsText.Length; i++)
         {
             string text = null;
-            if (paylines.symbols[i].Multiplier[0][0] != 0)
+            if (paylines.symbols[i].multiplier[0] != 0)
             {
-                text += "all - " + (9 * paylines.symbols[i].Multiplier[0][0]) + "X";
-                text += "\n5x - " + paylines.symbols[i].Multiplier[0][0] + "X";
+               // text += "all - " + (9 * paylines.symbols[i].multiplier[0]) + "X";
+                text += "\n5x - " + paylines.symbols[i].multiplier[0] + "X";
             }
-            if (paylines.symbols[i].Multiplier[1][0] != 0)
+            if (paylines.symbols[i].multiplier[1] != 0)
             {
-                text += "\n4x - " + paylines.symbols[i].Multiplier[1][0] + "X";
+                text += "\n4x - " + paylines.symbols[i].multiplier[1] + "X";
             }
-            if (paylines.symbols[i].Multiplier[2][0] != 0)
+            if (paylines.symbols[i].multiplier[2] != 0)
             {
-                text += "\n3x - " + paylines.symbols[i].Multiplier[2][0] + "X";
+                text += "\n3x - " + paylines.symbols[i].multiplier[2] + "X";
             }
             if (SymbolsText[i]) SymbolsText[i].text = text;
         }
 
         for (int i = 0; i < paylines.symbols.Count; i++)
         {
-            if (paylines.symbols[i].Name.ToUpper() == "FREESPIN")
+            if (paylines.symbols[i].name.ToUpper() == "FREESPIN")
             {
                 if (FreeSpin_Text) FreeSpin_Text.text = paylines.symbols[i].description.ToString();
             }
-            if (paylines.symbols[i].Name.ToUpper() == "WILD")
+            if (paylines.symbols[i].name.ToUpper() == "WILD")
             {
                 if (Wild_Text) Wild_Text.text = paylines.symbols[i].description.ToString();
             }

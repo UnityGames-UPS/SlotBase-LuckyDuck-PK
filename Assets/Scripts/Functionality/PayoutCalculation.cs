@@ -22,35 +22,36 @@ public class PayoutCalculation : MonoBehaviour
     [SerializeField] private ManageLineButtons[] leftPaylineButtons;
     [SerializeField] private ManageLineButtons[] rightPaylineButtons;
     [SerializeField] private Color[] colors;
-    [SerializeField]List<GameObject> DontDestroy = new List<GameObject>();
+    internal List<GameObject> DontDestroy = new List<GameObject>();
 
     internal List<List<int>> paylines = new List<List<int>>();
+    [SerializeField] private SlotBehaviour slotmanager;
 
     private void Start()
     {
 
-        List<int> lines = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        // List<int> lines = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-        for (int i = 0; i < leftPaylineButtons.Length; i++)
-        {
-            int line = Random.Range(0, lines.Count);
-            leftPaylineButtons[i].num = lines[line];
-            rightPaylineButtons[i].num = lines[line];
-            leftPaylineButtons[i].num_text.text = (lines[line] + 1).ToString();
-            rightPaylineButtons[i].num_text.text = (lines[line] + 1).ToString();
+        // for (int i = 0; i < leftPaylineButtons.Length; i++)
+        // {
+        //     int line = Random.Range(0, lines.Count);
+        //     leftPaylineButtons[i].num = lines[line];
+        //     rightPaylineButtons[i].num = lines[line];
+        //     leftPaylineButtons[i].num_text.text = (lines[line] + 1).ToString();
+        //     rightPaylineButtons[i].num_text.text = (lines[line] + 1).ToString();
 
-            leftPaylineButtons[i].GenerateLine = GeneratePayoutLines;
-            rightPaylineButtons[i].GenerateLine = GeneratePayoutLines;
+        //     leftPaylineButtons[i].GenerateLine = GeneratePayoutLines;
+        //     rightPaylineButtons[i].GenerateLine = GeneratePayoutLines;
 
-            leftPaylineButtons[i].DestroyLine = ResetLines;
-            rightPaylineButtons[i].DestroyLine = ResetLines;
-            lines.RemoveAt(line);
-        }
+        //     leftPaylineButtons[i].DestroyLine = ResetLines;
+        //     rightPaylineButtons[i].DestroyLine = ResetLines;
+        //     lines.RemoveAt(line);
+        // }
 
     }
 
 
-    internal void GeneratePayoutLines(int index, bool dontDestroy=false)
+    internal void GeneratePayoutLines(int index, bool dontDestroy = false)
     {
         GameObject MyLineObj = Instantiate(Line_Prefab, LineContainer);
         MyLineObj.transform.localPosition = new Vector2(InitialLinePosition.x, InitialLinePosition.y);
@@ -65,10 +66,10 @@ public class PayoutCalculation : MonoBehaviour
         var newpointlist = new List<Vector2>(MyLine.Points);
         newpointlist.RemoveAt(0);
         MyLine.Points = newpointlist.ToArray();
-        MyLine.color=colors[index];
+        MyLine.color = colors[index];
 
-        if(dontDestroy)
-        DontDestroy.Add(MyLineObj);
+        if (dontDestroy)
+            DontDestroy.Add(MyLineObj);
         // if(isStatic)
         // {
         //     TempObj = MyLineObj;
@@ -76,17 +77,28 @@ public class PayoutCalculation : MonoBehaviour
     }
 
     //delete all lines
-    internal void ResetLines(bool hard=false)
+    internal void ResetLines(bool hard = false)
     {
         foreach (Transform child in LineContainer)
         {
-            if(!hard){
+            if (!hard)
+            {
 
-                if(!DontDestroy.Contains(child.gameObject))
-            Destroy(child.gameObject);
+                if (!DontDestroy.Contains(child.gameObject))
+                    Destroy(child.gameObject);
 
-            }else
-            Destroy(child.gameObject);
+            }
+            else
+                Destroy(child.gameObject);
         }
     }
+    
+    //  internal void ResetStaticline()
+    // {
+    //     for (int i = 0; i < 9; i++)
+    //     {
+    //         Lines_Object[i].SetActive(slotmanager.dynamicLinesIndex.Contains(i));
+    //     }
+
+    // }
 }

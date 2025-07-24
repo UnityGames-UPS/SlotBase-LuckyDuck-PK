@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using DG.Tweening;
 using System;
+using System.Security;
 
 public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IPointerUpHandler,IPointerDownHandler
 {
@@ -15,19 +16,25 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 
 	internal Action<int,bool> GenerateLine;
 	internal Action<bool> DestroyLine;
+	[SerializeField] private int index;
+	[SerializeField] private SlotBehaviour slotmanager;
+	[SerializeField] private PayoutCalculation payoutcalculation;
 
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 
-			GenerateLine?.Invoke(num,false);
-			// slotManager.GenerateStaticLine(num_text);
+		//GenerateLine?.Invoke(num, false);
+		// slotManager.GenerateStaticLine(num_text);
+		//slotmanager.GenerateStaticLine(index);
+		payoutcalculation.GeneratePayoutLines(index, false);
 	}
 	public void OnPointerExit(PointerEventData eventData)
 	{
-
-			DestroyLine?.Invoke(false);
-			// slotManager.DestroyStaticLine();
+		DestroyLine?.Invoke(false);
+		// slotManager.DestroyStaticLine();
+		//slotManager.DestroyStaticLine();
+		payoutcalculation.ResetLines(false);
 	}
 	public void OnPointerDown(PointerEventData eventData)
 	{
@@ -45,8 +52,8 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 		{
 			//Debug.Log("run on pointer up");
 			// slotManager.DestroyStaticLine();
-			DestroyLine?.Invoke(false);
-
+		//	DestroyLine?.Invoke(false);
+            payoutcalculation.ResetLines(false);
 			DOVirtual.DelayedCall(0.1f, () =>
 			{
 				this.gameObject.GetComponent<Button>().spriteState = default;

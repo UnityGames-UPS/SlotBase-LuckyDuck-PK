@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Slot-luckyDuck.sln"
+    "dotnet.defaultSolution": "SlotBase-LuckyDuck-PK.sln"
 }
