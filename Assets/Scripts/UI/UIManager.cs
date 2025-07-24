@@ -425,12 +425,12 @@ public class UIManager : MonoBehaviour
         if (WinPopup_Object) WinPopup_Object.SetActive(true);
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
         Win_Image.transform.DOPunchScale(punch: new Vector3(0.5f, 0.5f, 0), duration: 2f, vibrato: 3, elasticity: 1);
-        WinPopupTextTween = DOTween.To(() => initAmount, (val) => initAmount = val, amount, 3f).OnUpdate(() =>
+        WinPopupTextTween = DOTween.To(() => initAmount, (val) => initAmount = val, amount, 2.3f).OnUpdate(() =>
         {
             if (Win_Text) Win_Text.text = initAmount.ToString("f3");
         });
 
-        ClosePopupTween = DOVirtual.DelayedCall(4f, () =>
+        ClosePopupTween = DOVirtual.DelayedCall(3.3f, () =>
         {
             ClosePopup(WinPopup_Object);
             slotManager.CheckPopups = false;
