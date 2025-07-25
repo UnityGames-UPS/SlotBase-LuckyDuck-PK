@@ -307,7 +307,7 @@ public class SocketIOManager : MonoBehaviour
                     playerdata = myData.player;
                     isResultdone = true;
                     break;
-                    break;
+                
                 }
             case "ExitUser":
                 {
