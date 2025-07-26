@@ -587,10 +587,10 @@ public class SlotBehaviour : MonoBehaviour
             CheckPopups = true;
             // CheckPayoutLineBackend(winLine);
             StartCoroutine(CheckPayoutLineBackend(winLine));
+
             yield return new WaitUntil(() => !CheckPopups);
-
         }
-
+        CheckForFeaturesAnimation();
 
 
         currentBalance = SocketManager.playerdata.balance;
@@ -849,6 +849,54 @@ public class SlotBehaviour : MonoBehaviour
         }
         CheckSpinAudio = false;
     }
+
+    private void CheckForFeaturesAnimation()
+    {
+        bool playScatter = false;
+        bool playBonus = false;
+        bool playFreespin = false;
+        // if (SocketManager.resultData.scatter.amount > 0)
+        // {
+        //     playScatter = true;
+        // }
+        // if (SocketManager.resultData.bonus.istriggered)
+        // {
+        //     playBonus = true;
+        // }
+        if (SocketManager.resultData.freeSpin.isFreeSpin)
+        {
+            playFreespin = true;
+        }
+        PlayFeatureAnimation(playScatter, playBonus, playFreespin);
+    }
+    private void PlayFeatureAnimation(bool scatter = false, bool bonus = false, bool freeSpin = false)
+    {
+        for (int i = 0; i < SocketManager.resultData.matrix.Count; i++)
+        {
+            for (int j = 0; j < SocketManager.resultData.matrix[i].Count; j++)
+            {
+
+                if (int.TryParse(SocketManager.resultData.matrix[i][j], out int parsedNumber))
+                {
+                    // if (scatter && parsedNumber == 12)
+                    // {
+                    //     StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+                    // }
+                    // if (bonus && parsedNumber == 9)
+                    // {
+                    //     StartGameAnimation(Tempimages[j].slotImages[i].gameObject);
+                    // }
+                    if (freeSpin && parsedNumber == 8)
+                    {
+                        slotMatrix[j].slotImages[i].StartAnimation();
+                        // StartGameAnimation(Tempimages[j].slotImages[i].transform);
+                    }
+                }
+
+            }
+        }
+    }
+
 
 
 
