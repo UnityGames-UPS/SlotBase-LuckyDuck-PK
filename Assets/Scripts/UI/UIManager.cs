@@ -351,20 +351,27 @@ public class UIManager : MonoBehaviour
         OpenPopup(LBPopup_Object);
     }
 
-    internal void DisconnectionPopup(bool isReconnection)
+    internal void DisconnectionPopup()
     {
-        //if(isReconnection)
-        //{
-        //    OpenPopup(ReconnectPopup_Object);
-        //}
-        //else
-        //{
-        //    ClosePopup(ReconnectPopup_Object);
-        //}
-
         if (!isExit)
         {
             OpenPopup(DisconnectPopup_Object);
+        }
+    }
+
+    internal void ReconnectionPopup()
+    {
+        OpenPopup(ReconnectPopup_Object);
+    }
+    internal void CheckAndClosePopups()
+    {
+        if (ReconnectPopup_Object.activeInHierarchy)
+        {
+            ClosePopup(ReconnectPopup_Object);
+        }
+        if (DisconnectPopup_Object.activeInHierarchy)
+        {
+            ClosePopup(DisconnectPopup_Object);
         }
     }
 
@@ -375,7 +382,7 @@ public class UIManager : MonoBehaviour
             case 1:
                 Win_Image.sprite = BigWin_Sprites;
                 Win_Image.gameObject.GetComponent<ImageAnimation>().textureArray = BigWinAnimSprites;
-                
+
                 break;
             case 2:
                 Win_Image.sprite = HugeWin_Sprites;
@@ -400,15 +407,16 @@ public class UIManager : MonoBehaviour
     }
     internal void FreeSpinProcess(int spins)
     {
-        int ExtraSpins=spins-FreeSpins;
-        FreeSpins=spins;
-        slotManager.totalFreeSpins+=ExtraSpins;
-        Debug.Log("ExtraSpins: " +ExtraSpins);
-        Debug.Log("Total Spins: " +spins);
-        if (FreeSpinPopup_Object) FreeSpinPopup_Object.SetActive(true);           
+        int ExtraSpins = spins - FreeSpins;
+        FreeSpins = spins;
+        slotManager.totalFreeSpins += ExtraSpins;
+        Debug.Log("ExtraSpins: " + ExtraSpins);
+        Debug.Log("Total Spins: " + spins);
+        if (FreeSpinPopup_Object) FreeSpinPopup_Object.SetActive(true);
         if (Free_Text) Free_Text.text = ExtraSpins.ToString() + " Free spins awarded.";
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
-        DOVirtual.DelayedCall(2f, ()=>{
+        DOVirtual.DelayedCall(2f, () =>
+        {
             StartFreeSpins(spins);
         });
     }
@@ -464,7 +472,7 @@ public class UIManager : MonoBehaviour
             string text = null;
             if (paylines.symbols[i].multiplier[0] != 0)
             {
-               // text += "all - " + (9 * paylines.symbols[i].multiplier[0]) + "X";
+                // text += "all - " + (9 * paylines.symbols[i].multiplier[0]) + "X";
                 text += "\n5x - " + paylines.symbols[i].multiplier[0] + "X";
             }
             if (paylines.symbols[i].multiplier[1] != 0)
