@@ -109,7 +109,7 @@ public class SlotBehaviour : MonoBehaviour
     private bool CheckSpinAudio = false;
     internal bool CheckPopups = false;
 
-    private int BetCounter = 0;
+    internal int BetCounter = 0;
     private double currentBalance = 0;
     private double currentTotalBet = 0;
     protected int Lines = 9;
@@ -329,6 +329,7 @@ public class SlotBehaviour : MonoBehaviour
         if (LineBet_text) LineBet_text.text = SocketManager.initialData.bets[BetCounter].ToString();
         if (TotalBet_text) TotalBet_text.text = (SocketManager.initialData.bets[BetCounter] * Lines).ToString();
         currentTotalBet = SocketManager.initialData.bets[BetCounter] * Lines;
+        uiManager.InitialiseUIData(SocketManager.initUIData.paylines);
         // CompareBalance();
     }
 
@@ -517,7 +518,7 @@ public class SlotBehaviour : MonoBehaviour
             }
         }
 
-        if (IsTurboOn)
+        if (IsTurboOn|| IsFreeSpin )
         {
 
             yield return new WaitForSeconds(0.1f);
@@ -681,15 +682,15 @@ public class SlotBehaviour : MonoBehaviour
     }
     internal void CheckWinPopups()
     {
-        if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 10 && SocketManager.resultData.payload.winAmount < currentTotalBet * 15)
+        if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 5 && SocketManager.resultData.payload.winAmount < currentTotalBet * 10)
         {
             uiManager.PopulateWin(1, SocketManager.resultData.payload.winAmount);
         }
-        else if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 15 && SocketManager.resultData.payload.winAmount < currentTotalBet * 20)
+        else if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 10 && SocketManager.resultData.payload.winAmount < currentTotalBet * 15)
         {
             uiManager.PopulateWin(2, SocketManager.resultData.payload.winAmount);
         }
-        else if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 20)
+        else if (SocketManager.resultData.payload.winAmount >= currentTotalBet * 15)
         {
             uiManager.PopulateWin(3, SocketManager.resultData.payload.winAmount);
         }

@@ -35,8 +35,6 @@ public class SocketIOManager : MonoBehaviour
     // protected string nameSpace="game"; //BackendChanges
     protected string nameSpace = "playground"; //BackendChanges
     private Socket gameSocket; //BackendChanges
-    [SerializeField]
-    internal JSHandler _jsManager;
 
     protected string SocketURI = null;
     // protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
@@ -454,6 +452,7 @@ public class SocketIOManager : MonoBehaviour
 
         isLoaded = true;
         // Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
+        RaycastBlocker.SetActive(false);
 #if UNITY_WEBGL && !UNITY_EDITOR
         JSManager.SendCustomMessage("OnEnter");
 #endif

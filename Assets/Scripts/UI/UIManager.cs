@@ -467,21 +467,22 @@ public class UIManager : MonoBehaviour
 
     private void PopulateSymbolsPayout(Paylines paylines)
     {
+        double currentbet = socketManager.initialData.bets[slotManager.BetCounter];
         for (int i = 0; i < SymbolsText.Length; i++)
         {
             string text = null;
             if (paylines.symbols[i].multiplier[0] != 0)
             {
                 // text += "all - " + (9 * paylines.symbols[i].multiplier[0]) + "X";
-                text += "\n5x - " + paylines.symbols[i].multiplier[0] + "X";
+                text += "\n5x - " + (paylines.symbols[i].multiplier[0]*currentbet) ;
             }
             if (paylines.symbols[i].multiplier[1] != 0)
             {
-                text += "\n4x - " + paylines.symbols[i].multiplier[1] + "X";
+                text += "\n4x - " + (paylines.symbols[i].multiplier[1]*currentbet) ;
             }
             if (paylines.symbols[i].multiplier[2] != 0)
             {
-                text += "\n3x - " + paylines.symbols[i].multiplier[2] + "X";
+                text += "\n3x - " + (paylines.symbols[i].multiplier[2]*currentbet) ;
             }
             if (SymbolsText[i]) SymbolsText[i].text = text;
         }
